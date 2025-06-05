@@ -1,0 +1,25 @@
+.modules-tab {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#phaser-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 0;
+}
+
+.progress-wrapper {
+    position: relative;
+    z-index: 10;
+    max-width: 500px;
+    margin: auto;
+}
+
+.modules-tab .task-modal {
+    position: relative;
+    z-index: 1000;
+    /* make sure modal is on top */
+}

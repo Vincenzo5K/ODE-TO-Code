@@ -1,0 +1,19 @@
+/* App.css */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* --- Tab Buttons --- */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Logout Button --- */
+.logout-button:hover {
+    background-color: #c82333;
+    color: white;
+}

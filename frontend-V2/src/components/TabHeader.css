@@ -1,0 +1,68 @@
+/* components/TabHeader.css */
+
+.tab-header {
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-bottom: 2px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    align-items: center;
+}
+
+.logo-container {
+    margin-right: 16px;
+}
+
+.logo-container img {
+    height: 40px;
+    user-select: none;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.tab-buttons button {
+    background-color: #e9ecef;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-buttons button:hover {
+    background-color: #ced4da;
+}
+
+.tab-buttons .active,
+.tab-buttons button.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.logout-button {
+    background-color: #e9ecef;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+    color: white;
+}
