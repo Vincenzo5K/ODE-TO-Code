@@ -52,9 +52,24 @@ const FloatingButtons = () => {
                 {showResources && (
                     <div className="popup-menu popup-resources popup-from-middle">
                         <ul>
-                            <li><a href="https://example.com/resource1" target="_blank" rel="noreferrer">Resource 1</a></li>
-                            <li><a href="https://example.com/resource2" target="_blank" rel="noreferrer">Resource 2</a></li>
-                            <li><a href="https://example.com/resource3" target="_blank" rel="noreferrer">Resource 3</a></li>
+                            <li>
+                                <a href="https://example.com/resource1" target="_blank" rel="noreferrer">
+                                    <img src="/icons/resource1.png" alt="Resource 1" className="popup-icon" />
+                                    Resource 1
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://example.com/resource2" target="_blank" rel="noreferrer">
+                                    <img src="/icons/resource2.png" alt="Resource 2" className="popup-icon" />
+                                    Resource 2
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://example.com/resource3" target="_blank" rel="noreferrer">
+                                    <img src="/icons/resource3.png" alt="Resource 3" className="popup-icon" />
+                                    Resource 3
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 )}
@@ -66,10 +81,30 @@ const FloatingButtons = () => {
                 {showMenu && (
                     <div className="popup-menu popup-menu-links popup-from-top">
                         <ul>
-                            <li><a href="#modules">Modules</a></li>
-                            <li><a href="#leaderboard">Leaderboard</a></li>
-                            <li><a href="#profile">Profile</a></li>
-                            <li><a href="#settings">Settings</a></li>
+                            <li>
+                                <a href="#modules">
+                                    <img src="/icons/modules.png" alt="Modules" className="popup-icon" />
+                                    Modules
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#leaderboard">
+                                    <img src="/icons/leaderboard.png" alt="Leaderboard" className="popup-icon" />
+                                    Leaderboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#profile">
+                                    <img src="/icons/profile.png" alt="Profile" className="popup-icon" />
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#settings">
+                                    <img src="/icons/settings.png" alt="Settings" className="popup-icon" />
+                                    Settings
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 )}

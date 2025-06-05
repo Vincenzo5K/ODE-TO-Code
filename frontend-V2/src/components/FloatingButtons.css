@@ -57,14 +57,29 @@
     padding: 8px 16px;
 }
 
+
 .popup-menu ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: #222;
     text-decoration: none;
-    display: block;
 }
+
+.popup-menu ul li a .popup-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
 
 .popup-menu ul li:hover a {
     color: #007bff;
+}
+
+.popup-menu ul li:hover a .popup-icon {
+    filter: brightness(0.8);
 }
 
 
