@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TaskModal.css';
 
-const TaskModal = ({ task, onClose, onComplete }) => {
+const TaskModal = ({ task, onClose, onComplete, isRevisit }) => {
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -112,9 +112,11 @@ const TaskModal = ({ task, onClose, onComplete }) => {
                 <h2>{task.title}</h2>
                 <div className="modal-body">{renderContent()}</div>
                 <div className="modal-actions">
-                    <button onClick={onComplete} className="complete-button">
-                        Mark Complete
-                    </button>
+                    {!isRevisit && (
+                        <button onClick={onComplete} className="complete-button">
+                            Mark Complete
+                        </button>
+                    )}
                     <button onClick={onClose} className="close-button">
                         Close
                     </button>

@@ -44,6 +44,7 @@ function App() {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [showAvatarPopup, setShowAvatarPopup] = useState(false);
   const [avatar, setAvatar] = useState(() => localStorage.getItem(CONFIG.LOCAL_KEYS.AVATAR) || CONFIG.DEFAULT_AVATAR);
+  const [isRevisit, setIsRevisit] = useState(false);
 
   useEffect(() => {
     const storedTasks = localStorage.getItem(CONFIG.LOCAL_KEYS.TASK_LIST);
@@ -113,7 +114,14 @@ function App() {
     const lastY = Number(localStorage.getItem(CONFIG.LOCAL_KEYS.PLAYER_Y)) || 160;
 
     const mapScene = new MapScene({
-      onTaskTrigger: (zone) => setModalTask(zone),
+      onTaskTrigger: (zone) => {
+        setModalTask(zone);
+        setIsRevisit(false);
+      },
+      onTaskRevisit: (zone) => {
+        setModalTask(zone);
+        setIsRevisit(true);
+      },
       onProgressUpdate: (completed, total) => {
         setCompletedTasks(completed);
         setTotalTasks(total);
@@ -197,6 +205,7 @@ function App() {
           completedTasks={completedTasks}
           totalTasks={totalTasks}
           modalTask={modalTask}
+          isRevisit={isRevisit}
           onCloseModal={handleClose}
           onCompleteModal={handleComplete}
         />

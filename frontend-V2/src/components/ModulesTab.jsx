@@ -8,7 +8,8 @@ const ModulesTab = ({
     totalTasks,
     modalTask,
     onCloseModal,
-    onCompleteModal
+    onCompleteModal,
+    isRevisit
 }) => {
     return (
         <div className="modules-tab">
@@ -21,6 +22,7 @@ const ModulesTab = ({
                     task={{ title: modalTask.name, contentUrl: modalTask.contentUrl }}
                     onClose={onCloseModal}
                     onComplete={onCompleteModal}
+                    isRevisit={isRevisit}
                 />
             )}
         </div>

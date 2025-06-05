@@ -43,6 +43,10 @@ export default class MapScene extends Phaser.Scene {
 
   avatar = 'avatar1.png';
 
+  // Revisit button state
+  revisitButton = null;
+  currentRevisitZone = null;
+
   constructor(config) {
     super('MapScene');
     this.onTaskTrigger = config.onTaskTrigger;
@@ -52,6 +56,7 @@ export default class MapScene extends Phaser.Scene {
     this.taskZones = config.initialTasks;
     this.user = config.user;
     this.avatar = config.avatar;
+    this.onTaskRevisit = config.onTaskRevisit || (() => {});
   }
 
   preload() {
@@ -159,11 +164,33 @@ export default class MapScene extends Phaser.Scene {
         showTooltip = true;
       }
 
-      if (now - this.lastModalTime > this.modalCooldown && !zone.completed && distance < interactDistance) {
-        this.onTaskTrigger(zone);
-        this.lastModalTime = now;
-        break;
+      // --- REVISIT FEATURE LOGIC ---
+      if (distance < interactDistance) {
+        if (!zone.completed) {
+          if (now - this.lastModalTime > this.modalCooldown) {
+            this.onTaskTrigger(zone);
+            this.lastModalTime = now;
+            if (this.revisitButton) {
+              this.revisitButton.destroy();
+              this.revisitButton = null;
+              this.currentRevisitZone = null;
+            }
+            break;
+          }
+        } else {
+          // Show revisit button near completed zone
+          if (!this.revisitButton || this.currentRevisitZone?.name !== zone.name) {
+            this.createRevisitButton(zone);
+          }
+        }
+      } else {
+        if (this.revisitButton && this.currentRevisitZone?.name === zone.name) {
+          this.revisitButton.destroy();
+          this.revisitButton = null;
+          this.currentRevisitZone = null;
+        }
       }
+      // --- END REVISIT FEATURE LOGIC ---
     }
 
     if (!showTooltip) {
@@ -178,9 +205,6 @@ export default class MapScene extends Phaser.Scene {
 
     if (this.cursors.up?.isDown) this.player.setVelocityY(-speed);
     else if (this.cursors.down?.isDown) this.player.setVelocityY(speed);
-
-    // Print player coordinates after movement logic
-    // console.log('Player position:', this.player.x, this.player.y);
   }
 
   async completeZone(zone) {
@@ -224,6 +248,35 @@ export default class MapScene extends Phaser.Scene {
   setModalOpen(isOpen) {
     this.isModalOpen = isOpen;
     this.input.enabled = !isOpen;
+    if (isOpen && this.revisitButton) {
+      this.revisitButton.destroy();
+      this.revisitButton = null;
+      this.currentRevisitZone = null;
+    }
+  }
+
+  // Revisit button creation method
+  createRevisitButton(zone) {
+    if (this.revisitButton) {
+      this.revisitButton.destroy();
+      this.revisitButton = null;
+    }
+
+    this.currentRevisitZone = zone;
+
+    this.revisitButton = this.add.text(zone.x + 25, zone.y - 15, '🔁 Revisit', {
+      fontSize: '14px',
+      fontFamily: 'Segoe UI, sans-serif',
+      color: '#ffffff',
+      borderColor: '#ffffff',
+      backgroundColor: '#007bff',
+      padding: {x: 10, y: 5},
+    })
+    .setDepth(20)
+    .setInteractive({ useHandCursor: true })
+    .on('pointerover', () => this.revisitButton.setStyle({ backgroundColor: '#0056b3' }))
+    .on('pointerout', () => this.revisitButton.setStyle({ backgroundColor: '#007bff' }))
+    .on('pointerdown', () => this.onTaskRevisit(zone));
   }
 
   // Player setup
