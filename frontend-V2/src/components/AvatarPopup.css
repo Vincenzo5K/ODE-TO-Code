@@ -1,43 +1,71 @@
+/* AvatarPopup.css */
+
 .avatar-popup-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(4px);
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 999;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    z-index: 999;
 }
 
 .avatar-popup {
     background: white;
-    padding: 30px;
+    padding: 30px 40px;
     border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
     text-align: center;
-    max-width: 600px;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.avatar-popup h2 {
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .avatar-options {
     display: flex;
     justify-content: space-around;
-    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .avatar-img {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
     cursor: pointer;
-    border-radius: 12px;
-    transition: transform 0.2s;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    transition: transform 0.2s, border-color 0.2s;
 }
 
 .avatar-img:hover {
     transform: scale(1.1);
+    border-color: #007bff;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.form-fields input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.form-fields input:focus {
+    outline: none;
+    border-color: #007bff;
 }

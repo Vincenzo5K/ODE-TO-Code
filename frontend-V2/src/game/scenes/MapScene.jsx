@@ -1,8 +1,21 @@
 import Phaser from 'phaser';
 import { userService } from '../../api/api';
 
+// Configuration constants
+const CONFIG = {
+  UI_MARGIN_TOP: 60,
+  MODAL_COOLDOWN: 4000,
+  INTERACT_DISTANCE: 50,
+  TOOLTIP_DISTANCE: 100,
+  PLAYER_SPEED: 300,
+  PLAYER_SIZE: 48,
+  PLAYER_START: { x: 200, yOffset: 160 },
+  MINIMAP_ZOOM: 0.15,
+  MAP_VIEW_START: { x: 5000, y: 1000 },
+};
+
 export default class MapScene extends Phaser.Scene {
-  uiMarginTop = 60;
+  uiMarginTop = CONFIG.UI_MARGIN_TOP;
   player = null;
   cursors = null;
 
@@ -20,13 +33,15 @@ export default class MapScene extends Phaser.Scene {
   isModalOpen = false;
 
   lastModalTime = 0;
-  modalCooldown = 4000;
+  modalCooldown = CONFIG.MODAL_COOLDOWN;
 
   worldWidth;
   worldHeight;
 
   onTaskTrigger;
   onProgressUpdate;
+
+  avatar = 'avatar1.png';
 
   constructor(config) {
     super('MapScene');
@@ -36,13 +51,14 @@ export default class MapScene extends Phaser.Scene {
     this.worldHeight = config.worldHeight || 1200;
     this.taskZones = config.initialTasks;
     this.user = config.user;
+    this.avatar = config.avatar;
   }
 
   preload() {
     this.load.image('tiles', 'citi-map.png');
     // this.load.image('tiles', 'desert-map.jpg');
     // this.load.image('tiles', 'map.png');
-    this.load.image('player', 'avatar3.png');
+    this.load.image(this.avatar, this.avatar);
   }
 
   create() {
@@ -60,16 +76,9 @@ export default class MapScene extends Phaser.Scene {
     this.worldWidth = bg.width;
     this.worldHeight = bg.height;
 
-    // Adjust for UI margin
-    bg.setY(this.uiMarginTop);
-
     // Update physics bounds to match new world size
     this.physics.world.setBounds(0, this.uiMarginTop, this.worldWidth, this.worldHeight - this.uiMarginTop);
-
-    // Also update camera bounds
     this.cameras.main.setBounds(0, this.uiMarginTop, this.worldWidth, this.worldHeight - this.uiMarginTop);
-
-    this.physics.world.setBounds(0, this.uiMarginTop, this.worldWidth, this.worldHeight - this.uiMarginTop);
 
     // Player setup
     this.createPlayer();
@@ -78,6 +87,8 @@ export default class MapScene extends Phaser.Scene {
 
     this.cameras.main.setBounds(0, this.uiMarginTop, this.worldWidth, this.worldHeight - this.uiMarginTop);
     this.cameras.main.startFollow(this.player);
+    
+    // Optionally set initial scrollX/Y here if needed, otherwise remove unused config values
 
     // Create minimap camera and styling
     this.createMinimapCamera();
@@ -125,7 +136,7 @@ export default class MapScene extends Phaser.Scene {
     }
 
     const now = this.time.now;
-    const interactDistance = 50;
+    const interactDistance = CONFIG.INTERACT_DISTANCE;
     let showTooltip = false;
 
     const playerX = this.player.x;
@@ -139,7 +150,7 @@ export default class MapScene extends Phaser.Scene {
       const dy = zone.y - playerY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 100) {
+      if (distance < CONFIG.TOOLTIP_DISTANCE) {
         let tooltipText = zone.name;
         if (zone.completed) {
           tooltipText += ' ✓';  // add a checkmark for completed
@@ -159,7 +170,7 @@ export default class MapScene extends Phaser.Scene {
       this.updateTooltip(null, null); // hides tooltip with fade-out
     }
 
-    const speed = 120;
+    const speed = CONFIG.PLAYER_SPEED;
     this.player.setVelocity(0);
 
     if (this.cursors.left?.isDown) this.player.setVelocityX(-speed);
@@ -167,6 +178,9 @@ export default class MapScene extends Phaser.Scene {
 
     if (this.cursors.up?.isDown) this.player.setVelocityY(-speed);
     else if (this.cursors.down?.isDown) this.player.setVelocityY(speed);
+
+    // Print player coordinates after movement logic
+    // console.log('Player position:', this.player.x, this.player.y);
   }
 
   async completeZone(zone) {
@@ -214,15 +228,15 @@ export default class MapScene extends Phaser.Scene {
 
   // Player setup
   createPlayer() {
-    const desiredSize = 48;
-    const texture = this.textures.get('player');
+    const desiredSize = CONFIG.PLAYER_SIZE;
+    const texture = this.textures.get(this.avatar);
     const frame = texture.getSourceImage();
     const scale = desiredSize / Math.max(frame.width, frame.height);
 
-    const initialX = parseFloat(localStorage.getItem('playerX')) || 100;
-    const initialY = parseFloat(localStorage.getItem('playerY')) || this.uiMarginTop + 100;
+    const initialX = parseFloat(localStorage.getItem('playerX')) || CONFIG.PLAYER_START.x;
+    const initialY = parseFloat(localStorage.getItem('playerY')) || this.uiMarginTop + CONFIG.PLAYER_START.yOffset;
 
-    this.player = this.physics.add.sprite(initialX, initialY, 'player', 0);
+    this.player = this.physics.add.sprite(initialX, initialY, this.avatar, 0);
     this.player.setCollideWorldBounds(true);
     this.player.setScale(scale);
 
@@ -315,7 +329,7 @@ export default class MapScene extends Phaser.Scene {
 
   // New method to create the minimap camera
   createMinimapCamera() {
-    this.minimapCamera = this.cameras.add(this.scale.width - 200, 20, 180, 150).setZoom(0.25);
+    this.minimapCamera = this.cameras.add(this.scale.width - 200, 20, 180, 150).setZoom(CONFIG.MINIMAP_ZOOM);
     this.minimapCamera.startFollow(this.player);
     this.minimapCamera.setBackgroundColor(0x002244);
     this.minimapCamera.setBounds(0, this.uiMarginTop, this.worldWidth, this.worldHeight - this.uiMarginTop);

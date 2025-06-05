@@ -10,10 +10,12 @@ const LeaderboardTab = ({ leaderboardData }) => {
           <table>
             <thead>
               <tr>
-                <th>Rank</th>
+                <th className="rank-cell">
+                  <span className="rank-badge-placeholder" />
+                  Rank
+                </th>
                 <th>SOEID</th>
                 <th>Full Name</th>
-                <th>Avatar</th>
                 <th>Location</th>
                 <th>Grade</th>
                 <th>Score</th>
@@ -22,16 +24,18 @@ const LeaderboardTab = ({ leaderboardData }) => {
             <tbody>
               {leaderboardData.map((entry, index) => (
                 <tr key={entry.soeid}>
-                  <td>{index + 1}</td>
+                  <td className="rank-cell">
+                    {index < 3 ? (
+                      <span className={`rank-badge rank-${index + 1}`}>
+                        {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                      </span>
+                    ) : (
+                      <span className="rank-badge-placeholder" />
+                    )}
+                    <span className="rank-number">{index + 1}</span>
+                  </td>
                   <td>{entry.soeid}</td>
                   <td>{entry.fullName}</td>
-                  <td>
-                    <img
-                      src={`${entry.avatar}`}
-                      alt={entry.avatar}
-                      style={{ width: '32px', height: '32px' }}
-                    />
-                  </td>
                   <td>{entry.location}</td>
                   <td>{entry.grade}</td>
                   <td>{entry.score}</td>
@@ -39,16 +43,6 @@ const LeaderboardTab = ({ leaderboardData }) => {
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="helpful-links">
-          <h2>Helpful Links 🔗</h2>
-          <ul>
-            <li><a href="http://" target="_blank" rel="noopener noreferrer">Link1</a></li>
-            <li><a href="http://" target="_blank" rel="noopener noreferrer">Link2</a></li>
-            <li><a href="http://" target="_blank" rel="noopener noreferrer">Link3</a></li>
-            <li><a href="http://" target="_blank" rel="noopener noreferrer">Link4</a></li>
-            <li><a href="http://" target="_blank" rel="noopener noreferrer">Link5</a></li>
-          </ul>
         </div>
       </div>
     </>

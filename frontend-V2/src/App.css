@@ -17,3 +17,9 @@ body {
     background-color: #c82333;
     color: white;
 }
+
+.app-container.blur {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+  }

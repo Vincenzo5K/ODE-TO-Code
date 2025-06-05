@@ -3,12 +3,6 @@
     margin: 0 auto;
     color: #212529;
     font-family: 'Segoe UI', sans-serif;
-
-    display: flex;
-    flex: 1 1 auto;
-    gap: 20px;
-    max-width: 90%;
-    justify-content: space-between;
 }
 
 .leaderboard-tab h2 {
@@ -18,16 +12,11 @@
 }
 
 /* LeaderBoard */
-.leaderboard,
-.helpful-links {
+.leaderboard {
     padding: 10px;
     border-radius: 8px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
         rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-
-.leaderboard {
-    flex: 0 0 78%;
 }
 
 .leaderboard table {
@@ -61,33 +50,29 @@
     transition: background-color 0.2s;
 }
 
-/* Helpful Links */
-.helpful-links {
-    max-width: 300px;
-    font-family: 'Segoe UI', sans-serif;
+.rank-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.helpful-links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.rank-badge,
+.rank-badge-placeholder {
+    display: inline-flex;
+    width: 24px;
+    /* fixed width reserved for badge */
+    justify-content: center;
+    font-size: 1.2em;
+    line-height: 1;
 }
 
-.helpful-links li {
-    padding: 20px;
+.rank-badge-placeholder {
+    /* invisible placeholder so it doesn't show but takes space */
+    visibility: hidden;
 }
 
-.helpful-links a {
-    text-decoration: none;
-    color: #343a40;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.helpful-links a:hover {
-    color: #007bff;
-}
-
-.helpful-links {
-    flex: 0 0 20%;
+.rank-number {
+    min-width: 20px;
+    text-align: center;
 }

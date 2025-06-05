@@ -53,7 +53,13 @@ export default function UserLogin({ onLoginComplete }) {
 
         console.log('🧠 Enriched Modules:', mappedModules);
 
-        onLoginComplete({ soeid: upperSoeid, mappedModules, status }); // pass to App
+        // 1. Add this after allModules is mapped
+        const userDetailsRes = await userService.getUserDetails(upperSoeid);
+        const avatarExists = !!userDetailsRes?.data?.avatar;
+
+        // 2. Then update this:
+        onLoginComplete({ soeid: upperSoeid, mappedModules, avatarExists }); // pass to App
+
         console.log('🚀 Navigating to dashboard...');
         navigate('/game-dashboard');
       } catch (err) {
